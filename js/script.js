@@ -53,9 +53,9 @@ for (let link of links) {
 }
   const optArticleSelector = '.post',
     optTitleSelector = '.post-title',
-    optTitleListSelector = '.titles';
-
-  function generateTitleLinks(){
+    optTitleListSelector = '.titles',
+    
+  function generateTitleLinks() {
 
     const tilteList = document.querySelector(optTitleSelector);
 
@@ -65,12 +65,16 @@ for (let link of links) {
 
     const articles = document.querySelectorAll(optArticleSelector)
 
-    for (article of articles){ 
-      const articleId = document.getAttribute("id")
+    for (article of articles){
+      
+      const articleId = article.getAttribute('id').innerHTML;
+
+      console.log("pobrał id artykułu?", articleId)
+
       const articleTitle = article.querySelector(optTitleSelector).innerHTML;
       const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
 
-      console.log(linkHTML);
+      console.log("zrobił linki html?; ",linkHTML);
 
       let html = '';
       for (let article of articles) {
@@ -80,4 +84,5 @@ for (let link of links) {
     }
   }
 }
-  generateTitleLinks();
+
+generateTitleLinks();
