@@ -64,10 +64,11 @@ for (let link of links) {
     }
 
     const articles = document.querySelectorAll(optArticleSelector)
+    let html = '';
 
     for (article of articles){
       
-      const articleId = article.getAttribute('id').innerHTML;
+      const articleId = article.getAttribute("id");
 
       console.log("pobrał id artykułu?", articleId)
 
@@ -84,5 +85,4 @@ for (let link of links) {
     }
   }
 }
-
 generateTitleLinks();
