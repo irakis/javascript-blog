@@ -44,17 +44,11 @@
     console.log("zmienił klasę?:", targetArticle);
 }
 
-const links = document.querySelectorAll('.titles a');
 
-console.log("co to jest links? ", links);
-
-for (let link of links) {
-  link.addEventListener('click', titleClickHandler);
-}
-  const optArticleSelector = '.post',
-    optTitleSelector = '.post-title',
-    optTitleListSelector = '.titles',
-    
+  const optArticleSelector = '.post';
+    optTitleSelector = '.post-title';
+    optTitleListSelector = '.titles';
+{   
   function generateTitleLinks() {
 
     const tilteList = document.querySelector(optTitleSelector);
@@ -76,13 +70,22 @@ for (let link of links) {
       const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
 
       console.log("zrobił linki html?; ",linkHTML);
-
+  
       let html = '';
       for (let article of articles) {
         html = html + linkHTML;
       }
+      console.log("jaki jest html po pętli:",html);
       tilteList.innerHTML = 'html'
     }
+      const links = document.querySelectorAll('.titles a');
+
+      console.log("co to jest links? ", links);
+
+      for (let link of links) {
+        link.addEventListener('click', titleClickHandler);
+      }
+    }
   }
-}
 generateTitleLinks();
+}
