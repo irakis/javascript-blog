@@ -92,7 +92,9 @@
   const optArticleSelector = '.post',
     optTitleSelector = '.post-title',
     optTitleListSelector = '.titles',
-    optArticleTagsSelector = '.post-tags .list';
+    optArticleTagsSelector = '.post-tags .list',
+    optDataAuthorSelector = 'data-author',
+    optArticleAuthorSelector = '.post-author';
 
   generateTitleLinks();
 
@@ -234,41 +236,63 @@
   console.log('addClickListenersToTags się uruchamia!');
 
 
+  function authorClickHandler(event) {
+    event.preventDefault();
+
+    const clickedElement = this;
+    console.log('jakiego autora kliknąłeś?' , clickedElement);
+
+    const href = clickedElement.getAttribute('href');
+    console.log('klikniety autor to: ', href);
+
+    const authorArticles = document.querySelectorAll(href);
+
+    for (let authorArticle of authorArticles) {
+
+      optDataAuthorSelector.classList.remove('active');
+      console.log('usuwamy active z art.autorów:', authorArticle);
+
+      href.classList.add('active');
+    }
+
+    generateTitleLinks('[data-author="' + href + '"]');
+
+  }
+
+
   function generateAuthors() {
 
-    const postAuthor = '.post-author'
+    const listOfArticles = document.querySelectorAll(optArticleSelector);
+    console.log('powstała lista autorów i art. ?: ', listOfArticles)
 
-    const listOfAuthors = document.querySelectorAll(postAuthor);
-    console.log('powstała lista autorów?: ', listOfAuthors)
+    for (let Author of listOfArticles) {
 
-    for (Author of listOfAuthors) {
+      const authorWrapper = Author.querySelector(optArticleAuthorSelector);
+      console.log('wybrał wrappera?: ', optArticleAuthorSelector);
 
-      const authorWrapper = Author.querySelector(postAuthor);
-      console.log('wybrał autorów?: ', postAuthor);
+      let html = '';
 
-      const authorByName = Author.getAttribute(postAuthor);
+      const authorByName = Author.getAttribute(optDataAuthorSelector);
+      console.log('pobrał nazwiska autorów?: ', authorByName);
 
-      const authorName = authorByName.slice(3);
-      console.log('pobrał i rzyciął nawziska autorów?: ', authorName);
-
-      html = "";
-
-      Author.classList.remove(postAuthor);
-
-      Author.classList.add('data-author')
-
-      const linkHTML = '<a href="#' + authorName + '">' + authorName + '</a>';
+      const linkHTML = '<a href="#author-' + authorByName + '">' + authorByName + '</a>';
+      console.log('czy zrobił link do autora?', linkHTML);
 
       html = linkHTML;
 
       authorWrapper.innerHTML = html;
     }
-
   }
+  generateAuthors()
 
-  generateAuthors();
+  function addClickListenersToAuthors() {
 
-  function authorClickHandler(){
-     
+    const linkToAuthors = document.querySelectorAll(optArticleAuthorSelector);
+
+    for (let linkToAuthor of linkToAuthors) {
+
+      linkToAuthor.addEventListener('click', authorClickHandler);
+    }
   }
+  addClickListenersToAuthors();
 }
