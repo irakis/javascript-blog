@@ -143,7 +143,7 @@
 
         const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
 
-        html = linkHTML;
+        html = html + linkHTML;
 
         console.log('zapisał do zmiennej link?', html);
 
@@ -173,7 +173,7 @@
     const href = clickedElement.getAttribute('href');
     /*[DONE] make a new constant "href" and read the attribute "href" of the clicked element */
 
-    console.log('pobrał artybut href? ', href);
+    console.log('tagClickHandler pobrał artybut href? ', href);
 
     /*[DONE] make a new constant "tag" and extract tag from the "href" constant */
     const tag = href.replace('#tag-', '');
@@ -218,6 +218,7 @@
 
     /* find all links to tags */
     const tagActiveLinks = document.querySelectorAll('a[href^="#tag-"]');
+    console.log('addClickKistenetToTags wybrał aktywne linki do tagów.', tagActiveLinks);
 
     /* START LOOP: for each link */
     for (let tagLink of tagActiveLinks) {
@@ -230,6 +231,7 @@
   }
 
   addClickListenersToTags();
+  console.log('addClickListenersToTags się uruchamia!');
 
 
   function generateAuthors() {
