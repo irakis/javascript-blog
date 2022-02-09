@@ -145,7 +145,7 @@
 
         const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
 
-        html = html + linkHTML;
+        html = html + linkHTML+' ';
 
         console.log('zapisał do zmiennej link?', html);
 
@@ -233,14 +233,12 @@
   }
 
   addClickListenersToTags();
-  console.log('addClickListenersToTags się uruchamia!');
 
-
-  function authorClickHandler(event) {
+  const authorClickHandler = function(event) {
     event.preventDefault();
 
     const clickedElement = this;
-    console.log('jakiego autora kliknąłeś?' , clickedElement);
+    console.log('jakiego autora kliknąłeś?', clickedElement);
 
     const href = clickedElement.getAttribute('href');
     console.log('klikniety autor to: ', href);
@@ -266,11 +264,10 @@
 
   }
 
-
-  function generateAuthors() {
+  const generateAuthors = function() {
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
-    console.log('powstała lista autorów i art. ?: ', listOfArticles)
+    console.log('powstała lista autorów i art. ?: ', listOfArticles);
 
     for (let Author of listOfArticles) {
 
@@ -290,9 +287,9 @@
       authorWrapper.innerHTML = html;
     }
   }
-  generateAuthors()
+  generateAuthors();
 
-  function addClickListenersToAuthors() {
+  const addClickListenersToAuthors = function() {
 
     const linkToAuthors = document.querySelectorAll('a[href^="#author-"]');
     console.log('wybrał coś po kliknięciu autora?', linkToAuthors);
