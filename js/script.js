@@ -245,17 +245,24 @@
     const href = clickedElement.getAttribute('href');
     console.log('klikniety autor to: ', href);
 
-    const authorArticles = document.querySelectorAll(href);
+    const authorName = href.slice(8);
+    console.log('przyciete nazwisko: ', authorName);
+
+    /*const authorArticles = document.querySelectorAll(optDataAuthorSelector);
+    console.log('wszystkie atykuły wszystkich autorów to:',authorArticles);
 
     for (let authorArticle of authorArticles) {
 
-      optDataAuthorSelector.classList.remove('active');
+      authorArticle.classList.remove('active');
       console.log('usuwamy active z art.autorów:', authorArticle);
 
-      href.classList.add('active');
-    }
+      const theAuthorArticles = authorArticle.querySelectorAll(optDataAuthorSelector = authorName);
+      console.log('art. tylko tego autora: ', theAuthorArticles);
 
-    generateTitleLinks('[data-author="' + href + '"]');
+      theAuthorArticles.classList.add('active');
+    }*/
+
+    generateTitleLinks('[data-author="' + authorName + '"]');
 
   }
 
@@ -287,7 +294,8 @@
 
   function addClickListenersToAuthors() {
 
-    const linkToAuthors = document.querySelectorAll(optArticleAuthorSelector);
+    const linkToAuthors = document.querySelectorAll('a[href^="#author-"]');
+    console.log('wybrał coś po kliknięciu autora?', linkToAuthors);
 
     for (let linkToAuthor of linkToAuthors) {
 
