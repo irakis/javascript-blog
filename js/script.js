@@ -193,7 +193,7 @@
 
     /* END LOOP: for each active tag link */
 
-    const tagsEqualToClicked = document.querySelectorAll('a[href="' + tag + '"]');
+    const tagsEqualToClicked = document.querySelectorAll('a[href="' + href + '"]');
     /* [DONE] find all tag links with "href" attribute equal to the "href" constant */
     console.log('linki art. z tym samym tagiem: ', tagsEqualToClicked);
 
@@ -205,7 +205,6 @@
     }
 
     /*[DONE] END LOOP: for each found tag link */
-
     /*[done] execute function "generateTitleLinks" with article selector as argument */
     generateTitleLinks('[data-tags~="' + tag + '"]');
   };
@@ -240,22 +239,25 @@
     const authorName = href.slice(8);
     console.log('przyciete nazwisko: ', authorName);
 
-    /*const authorArticles = document.querySelectorAll(optDataAuthorSelector);
+    const authorArticles = document.querySelectorAll(optArticleAuthorSelector);
     console.log('wszystkie atykuły wszystkich autorów to:',authorArticles);
 
-    for (let authorArticle of authorArticles) {
+    for (const authorArticle of authorArticles) {
 
       authorArticle.classList.remove('active');
       console.log('usuwamy active z art.autorów:', authorArticle);
+    }
 
-      const theAuthorArticles = authorArticle.querySelectorAll(optDataAuthorSelector = authorName);
-      console.log('art. tylko tego autora: ', theAuthorArticles);
+    const theAuthorArticles = document.querySelectorAll('a[href="' + href + '"]');
+    console.log('art. tylko tego autora: ', theAuthorArticles);
 
-      theAuthorArticles.classList.add('active');
-    }*/
+    for (const theAuthorArticle of theAuthorArticles) {
+  
+      theAuthorArticle.classList.add('active');
+      console.log('dodał active do wszystkich art tego autora: ',theAuthorArticle)
+    }
 
     generateTitleLinks('[data-author="' + authorName + '"]');
-
   };
 
   const generateAuthors = function() {
@@ -263,14 +265,14 @@
     const listOfArticles = document.querySelectorAll(optArticleSelector);
     console.log('powstała lista autorów i art. ?: ', listOfArticles);
 
-    for (let Author of listOfArticles) {
+    for (let author of listOfArticles) {
 
-      const authorWrapper = Author.querySelector(optArticleAuthorSelector);
+      const authorWrapper = author.querySelector(optArticleAuthorSelector);
       console.log('wybrał wrappera?: ', optArticleAuthorSelector);
 
       let html = '';
 
-      const authorByName = Author.getAttribute(optDataAuthorSelector);
+      const authorByName = author.getAttribute(optDataAuthorSelector);
       console.log('pobrał nazwiska autorów?: ', authorByName);
 
       const linkHTML = '<a href="#author-' + authorByName + '">' + authorByName + '</a>';
