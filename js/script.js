@@ -97,7 +97,8 @@
     optTagsListSelector = '.tags.list',
     optArticleAuthorSelector = '.post-author',
     optCloudClassCount = '5',
-    optCloudClassPrefix = 'tag-size-';
+    optCloudClassPrefix = 'tag-size-',
+    optAuthorsListSelector = '.authors.list';
 
   generateTitleLinks();
 
@@ -320,6 +321,8 @@
   };
 
   const generateAuthors = function() {
+    const listOfAuthors = [];
+    console.log('powstał obiekt na autorów', listOfAuthors);
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
     console.log('powstała lista autorów i art. ?: ', listOfArticles);
@@ -340,7 +343,20 @@
       html = linkHTML;
 
       authorWrapper.innerHTML = html;
+
+      const indexOfAuthor = listOfAuthors.indexOf(linkHTML);
+      console.log('tabica sprawdza czy ma link', indexOfAuthor);
+
+      if(indexOfAuthor == -1) {
+        listOfAuthors.push(linkHTML);
+        console.log('powstała lista autorów w tablicy',listOfAuthors);
+      }      
     }
+    
+    
+    const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
+    html = '';
+    sidebarAuthorList.innerHTML = listOfAuthors;
   };
   generateAuthors();
 
