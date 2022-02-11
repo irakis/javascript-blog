@@ -94,16 +94,47 @@
     optTitleListSelector = '.titles',
     optArticleTagsSelector = '.post-tags .list',
     optDataAuthorSelector = 'data-author',
-    optArticleAuthorSelector = '.post-author';
+    optTagsListSelector = '.tags.list',
+    optArticleAuthorSelector = '.post-author',
+    optCloudClassCount = '5',
+    optCloudClassPrefix = 'tag-size-';
 
   generateTitleLinks();
 
+  function calculateTagsParams (tags) {
+
+    const params = {
+      max: 0,
+      min: 9999999,
+    };
+
+    for(let tag in tags){
+      params.max = Math.max(tags[tag], params.max);
+      params.min = Math.min(tags[tag], params.min);
+      console.log(tag + ' is used ' + tags[tag] + ' times');
+    }
+    return params;
+  }
+
+  function calculateTagClass (count, params){
+      
+      const normalizedCount = count - params.min;
+      const normalizedMax = params.max - params.min;
+      const percentage = normalizedCount/normalizedMax;
+      const classNumber = Math.floor(percentage*(optCloudClassCount-1)+1);
+      const cloudClassPrefixHTML = optCloudClassPrefix + classNumber;
+
+      return cloudClassPrefixHTML;
+  }
+
   const generateTags = function () {
 
+     /* [NEW] create a new variable allTags with an empty object */
+    let allTags = {};
+    console.log('NEW powstała pusta tablica: ',allTags);
+
     /*[DONE] find all articles */
-
     const listAllArticles = document.querySelectorAll(optArticleSelector);
-
     console.log('znajdź wszystkie art.:', listAllArticles);
 
     /*[DONE] START LOOP: for every article: */
@@ -112,19 +143,16 @@
     for (const article of listAllArticles) {
 
       const tagsWrapper = article.querySelector(optArticleTagsSelector);
-
       console.log('jest tag wrappera? :', tagsWrapper);
 
       /*[DONE] make html variable with empty string */
 
       let html = '';
-
       console.log('czysty html?', html);
 
       /*[DONE] get tags from data-tags attribute */
 
       const articleTags = article.getAttribute('data-tags');
-
       console.log('czy znalazł tagi?; ', articleTags);
 
       /*[DONE] split tags into array */
@@ -132,7 +160,6 @@
       const articleTagsArray = articleTags.split(' ');
 
       /*[DONE] START LOOP: for each tag */
-
       console.log('zrobił tablicę? ', articleTagsArray);
 
       for (let tag of articleTagsArray) {
@@ -142,24 +169,56 @@
         console.log('jaki znalazł tag?', tag);
 
         /*[DONE] add generated code to html variable */
-
         const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li> ';
 
         html = html + linkHTML;
-
         console.log('zapisał do zmiennej link?', html);
 
-        /*[DONE] END LOOP: for each tag */
+        /* [NEW] check if this link is NOT already in allTags */
+        if(!allTags[tag]) {
+          /* [NEW] add tag to allTags object */
+          allTags[tag] = 1;
+        } else {
+          allTags[tag]++;
+          console.log('NEW obiekt z tagami?:', allTags[tag]);
+        }
       }
+      
+      console.log(allTags);
 
+        /*[DONE] END LOOP: for each tag */
       /*[DONE] insert HTML of all the links into the tags wrapper */
 
       tagsWrapper.innerHTML = html;
-
       console.log('zapisał link we wrapp?: ', html);
 
       /*[DONE] END LOOP: for every article: */
     }
+      /* [NEW] find list of tags in right column */
+    const tagList = document.querySelector(optTagsListSelector);
+    console.log('NEW zanjdujemy liste dla tagów: ', tagList);
+
+    const tagsParams = calculateTagsParams(allTags);
+    console.log('tagsParams:', tagsParams);
+
+    /* [NEW] create variable for all links HTML code */
+    let allTagsHTML = '';
+
+    /* [NEW] START LOOP: for each tag in allTags: */
+    for(let tag in allTags){
+      /* [NEW] generate code of a link and add it to allTagsHTML */
+
+      const tagLinkHTML ='<li><a class="'+ calculateTagClass(allTags[tag], tagsParams)+ '" '+' href="#tag-' + tag + '">' + tag + '</a></li>'
+      console.log('tagLinkHTML:', tagLinkHTML);
+
+
+      allTagsHTML += tagLinkHTML;
+    }
+    /* [NEW] END LOOP: for each tag in allTags: */
+
+    /*[NEW] add HTML from allTagsHTML to tagList */
+    tagList.innerHTML = allTagsHTML;
+    console.log('NEW lista ardesów do tagów',allTagsHTML);
   };
 
   generateTags();
