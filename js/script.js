@@ -359,8 +359,9 @@
       console.log('jak zasobna jest tablica z autorami', listOfAuthors);
       if(linkAuthor){
         sidebarAuthorList != linkAuthor;
-        sidebarAuthorList.innerHTML += linkAuthor;
-        console.log('jakiego autor wpisuje w siedebar', linkAuthor);
+        const linkauthorLi = '<li>' + linkAuthor + '</li>';
+        sidebarAuthorList.innerHTML += linkauthorLi;
+        console.log('jakiego autor wpisuje w siedebar', linkauthorLi);
       }
     }
   }
