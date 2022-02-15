@@ -5,6 +5,8 @@
     const templates = {
     articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
     tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+    authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
+    authorLinkList: Handlebars.compile(document.querySelector('#template-author-list-link').innerHTML),
 
   }
 
@@ -176,8 +178,7 @@
 
         console.log('jaki znalazł tag?', tag);
 
-        /*[DONE] add generated code to html variable */
-
+        /*[DONE] add generated code to html variable, tag as a link below article */
         const linkHTMLData = { id: 'tag-' + tag, title: tag };
         const linkHTML = templates.articleLink(linkHTMLData);
 
@@ -329,6 +330,7 @@
   const generateAuthors = function () {
     const listOfAuthors = [];
     console.log('powstał obiekt na autorów', listOfAuthors);
+    
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
     console.log('powstała lista autorów i art. ?: ', listOfArticles);
@@ -342,9 +344,11 @@
 
       const authorByName = author.getAttribute(optDataAuthorSelector);
       console.log('pobrał nazwiska autorów?: ', authorByName);
-
-      const linkHTMLData = { id: 'author-' + authorByName, title: authorByName };
-      const linkHTML = templates.articleLink(linkHTMLData);
+      
+      const linkHTMLData = { id: authorByName, title: authorByName };
+      const linkHTML = templates.authorLink(linkHTMLData);
+      console.log('to są linki', linkHTML);
+      console.log('to jest nowa tablica', linkHTMLData);
 
       html = linkHTML;
 
@@ -358,10 +362,29 @@
         console.log('powstała lista autorów w tablicy', listOfAuthors);
       }
     }
+    console.log('tablica nazwisk po pętli?',listOfAuthors);
+
 
     const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
     html = '';
-    for (const linkAuthor of listOfAuthors) {
+
+    sidebarLinkHTML = [];
+    console.log('list of authors', listOfAuthors);
+
+    const sidebarAuthorLinkHTML = templates.authorLinkList(linkHTMLData);
+    for(const sidebarlink in sidebarAuthorLinkHTML){
+      if(sidebarAuthorLinkHTML) {
+        sidebarAuthorLinkHTML != sidebarAuthorLinkHTML;
+        sidebarAuthorLinkHTML += sidebarAuthorLinkHTML
+        }
+    }
+    sidebarAuthorList.innerHTML = sidebarLinkHTML;
+    console.log('sidebarauthorList', sidebarAuthorList);
+
+      
+
+
+  /*  for (const linkAuthor of listOfAuthors) {
       console.log('jak zasobna jest tablica z autorami', listOfAuthors);
       if (linkAuthor) {
         sidebarAuthorList != linkAuthor;
@@ -369,7 +392,7 @@
         sidebarAuthorList.innerHTML += linkauthorLi;
         console.log('jakiego autor wpisuje w siedebar', linkauthorLi);
       }
-    }
+    }*/
   }
 
   generateAuthors();
