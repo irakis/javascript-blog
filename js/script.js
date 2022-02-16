@@ -7,6 +7,7 @@
     tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
     authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
     authorLinkList: Handlebars.compile(document.querySelector('#template-author-list-link').innerHTML),
+    articleTagLink: Handlebars.compile(document.querySelector('#template-article-tag-link').innerHTML),
 
   }
 
@@ -179,11 +180,11 @@
         console.log('jaki znalazł tag?', tag);
 
         /*[DONE] add generated code to html variable, tag as a link below article */
-        const linkHTMLData = { id: 'tag-' + tag, title: tag };
-        const linkHTML = templates.articleLink(linkHTMLData);
+        const linkHTMLData = { id: tag, title: tag };
+        const linkHTML = templates.articleTagLink(linkHTMLData);
 
         html = html + linkHTML;
-        console.log('zapisał do zmiennej link?', html);
+        console.log('zapisał do zmiennej link?', linkHTML);
 
         /* [NEW] check if this link is NOT already in allTags */
         if (!allTags[tag]) {
@@ -214,6 +215,7 @@
 
     /* [NEW] create variable for all links HTML code */
     const allTagsData = { tags: [] };
+    console.log('allTagsData', allTagsData);
 
     for (let tag in allTags) {
       /* [NEW] generate code of a link and add it to allTagsHTML */
@@ -328,8 +330,8 @@
   };
 
   const generateAuthors = function () {
-    const listOfAuthors = [];
-    console.log('powstał obiekt na autorów', listOfAuthors);
+    const BiglistOfAuthors = {listOfAuthors:[]};
+    console.log('powstał obiekt na autorów', BiglistOfAuthors);
     
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
@@ -345,7 +347,7 @@
       const authorByName = author.getAttribute(optDataAuthorSelector);
       console.log('pobrał nazwiska autorów?: ', authorByName);
       
-      const linkHTMLData = { id: authorByName, title: authorByName };
+      const linkHTMLData = { id: authorByName  };
       const linkHTML = templates.authorLink(linkHTMLData);
       console.log('to są linki', linkHTML);
       console.log('to jest nowa tablica', linkHTMLData);
@@ -354,45 +356,42 @@
 
       authorWrapper.innerHTML = html;
 
-      const indexOfAuthor = listOfAuthors.indexOf(linkHTML);
+      const indexOfAuthor = BiglistOfAuthors.listOfAuthors.indexOf(authorByName);
       console.log('tabica sprawdza czy ma link', indexOfAuthor);
 
       if (indexOfAuthor == -1) {
-        listOfAuthors.push(linkHTML);
-        console.log('powstała lista autorów w tablicy', listOfAuthors);
+        BiglistOfAuthors.listOfAuthors.push({
+          authorbyname: authorByName,
+        })
       }
     }
-    console.log('tablica nazwisk po pętli?',listOfAuthors);
+    console.log('tablica nazwisk po pętli?',BiglistOfAuthors);
+  
 
 
     const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
     html = '';
 
-    sidebarLinkHTML = [];
-    console.log('list of authors', listOfAuthors);
 
-    const sidebarAuthorLinkHTML = templates.authorLinkList(linkHTMLData);
-    for(const sidebarlink in sidebarAuthorLinkHTML){
-      if(sidebarAuthorLinkHTML) {
-        sidebarAuthorLinkHTML != sidebarAuthorLinkHTML;
-        sidebarAuthorLinkHTML += sidebarAuthorLinkHTML
-        }
-    }
-    sidebarAuthorList.innerHTML = sidebarLinkHTML;
-    console.log('sidebarauthorList', sidebarAuthorList);
 
+    //sidebarLinkHTML = {authorName:[]}; 
+   // console.log('author sidebar links', sidebarLinkHTML);
+    
       
 
+    const sidebarAuthorLinkHTML = templates.authorLinkList(BiglistOfAuthors);
+    console.log('sidebarAuthorLinkHTML', sidebarAuthorLinkHTML);
 
-  /*  for (const linkAuthor of listOfAuthors) {
-      console.log('jak zasobna jest tablica z autorami', listOfAuthors);
-      if (linkAuthor) {
-        sidebarAuthorList != linkAuthor;
-        const linkauthorLi = '<li>' + linkAuthor + '</li>';
-        sidebarAuthorList.innerHTML += linkauthorLi;
-        console.log('jakiego autor wpisuje w siedebar', linkauthorLi);
-      }
+    /*for(const sidebarLink in sidebarAuthorLinkHTML){
+      if(!sidebarLink) {
+        sidebarLinkHTML.authorName.push(sidebar);
+        }
     }*/
+    
+    sidebarAuthorList.innerHTML = sidebarAuthorLinkHTML;
+    
+    console.log('sidebar lista linków', sidebarLinkHTML);
+      
   }
 
   generateAuthors();
