@@ -330,7 +330,7 @@
   };
 
   const generateAuthors = function () {
-    const BiglistOfAuthors = {authors:[]};
+    const BiglistOfAuthors = {};
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
     console.log('powstała lista autorów i art. ?: ', listOfArticles);
@@ -354,10 +354,9 @@
 
       authorWrapper.innerHTML = html;
 
-      if(!BiglistOfAuthors.authors[{id: authorByName}]){
-        BiglistOfAuthors.authors.push({
-          id: authorByName,
-        })
+      if(!BiglistOfAuthors[author]) {
+        const BiglistOfAuthors = {author: authorByName}
+        console.log('if Big list',BiglistOfAuthors)
       }
 
     
@@ -368,7 +367,7 @@
     html = '';
 
     const sidebarAuthorLinkHTML = templates.authorLinkList(BiglistOfAuthors);
-    console.log('BiglistOfAuthors.authors:', BiglistOfAuthors.authors.id);
+    console.log('BiglistOfAuthors.authors:', BiglistOfAuthors.id);
     console.log('sidebarAuthorLinkHTML', sidebarAuthorLinkHTML);
     
     sidebarAuthorList.innerHTML = sidebarAuthorLinkHTML;
