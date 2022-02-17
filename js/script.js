@@ -330,7 +330,7 @@
   };
 
   const generateAuthors = function () {
-    const BiglistOfAuthors = {listOfAuthors:[]};
+    const BiglistOfAuthors = {listOfAuthors:{}};
     console.log('powstał obiekt na autorów', BiglistOfAuthors);
     
 
@@ -350,47 +350,30 @@
       const linkHTMLData = { id: authorByName  };
       const linkHTML = templates.authorLink(linkHTMLData);
       console.log('to są linki', linkHTML);
-      console.log('to jest nowa tablica', linkHTMLData);
+      console.log('to jest tablica linkHTMLData', linkHTMLData);
 
       html = linkHTML;
 
       authorWrapper.innerHTML = html;
 
-      const indexOfAuthor = BiglistOfAuthors.listOfAuthors.indexOf(authorByName);
+      const indexOfAuthor = BiglistOfAuthors.listOfAuthors.hasOwnProperty(authorByName);
       console.log('tabica sprawdza czy ma link', indexOfAuthor);
+      console.log('authorByName:', authorByName);
 
-      if (indexOfAuthor == -1) {
-        BiglistOfAuthors.listOfAuthors.push({
-          authorbyname: authorByName,
-        })
+      if (indexOfAuthor == false) {
+        BiglistOfAuthors.listOfAuthors.authorbyname = {authorbyname: authorByName,
+        }
       }
     }
     console.log('tablica nazwisk po pętli?',BiglistOfAuthors);
   
-
-
     const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
     html = '';
 
-
-
-    //sidebarLinkHTML = {authorName:[]}; 
-   // console.log('author sidebar links', sidebarLinkHTML);
-    
-      
-
     const sidebarAuthorLinkHTML = templates.authorLinkList(BiglistOfAuthors);
     console.log('sidebarAuthorLinkHTML', sidebarAuthorLinkHTML);
-
-    /*for(const sidebarLink in sidebarAuthorLinkHTML){
-      if(!sidebarLink) {
-        sidebarLinkHTML.authorName.push(sidebar);
-        }
-    }*/
     
     sidebarAuthorList.innerHTML = sidebarAuthorLinkHTML;
-    
-    console.log('sidebar lista linków', sidebarLinkHTML);
       
   }
 
