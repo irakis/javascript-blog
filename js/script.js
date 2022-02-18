@@ -331,6 +331,7 @@
 
   const generateAuthors = function () {
     const BiglistOfAuthors = {};
+    const BiglistOfAuthors2 = {authorLink:[]};
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
     console.log('powstała lista autorów i art. ?: ', listOfArticles);
@@ -354,20 +355,31 @@
 
       authorWrapper.innerHTML = html;
 
-      if(!BiglistOfAuthors[author]) {
-        const BiglistOfAuthors = {author: authorByName}
-        console.log('if Big list',BiglistOfAuthors)
+      const indexOfArray = BiglistOfAuthors2.authorLink.indexOf({authorLinkName: authorByName})
+        console.log('indexOfArray', indexOfArray);
+
+      if(indexOfArray == -1){
+        BiglistOfAuthors2.authorLink.push({
+        authorLinkName: authorByName,
+        })
+      }
+
+      if (!BiglistOfAuthors[authorByName]) {
+        BiglistOfAuthors[authorByName] = 1;
+      } else {
+        BiglistOfAuthors[authorByName]++;
       }
 
     
     }
     console.log('obiekt nazwisk po pętli?',BiglistOfAuthors);
+    console.log('obiekt 2 po pętli?',BiglistOfAuthors2);
   
     const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
     html = '';
 
-    const sidebarAuthorLinkHTML = templates.authorLinkList(BiglistOfAuthors);
-    console.log('BiglistOfAuthors.authors:', BiglistOfAuthors.id);
+    const sidebarAuthorLinkHTML = templates.authorLinkList(BiglistOfAuthors2);
+    console.log('BiglistOfAuthors.authors:', BiglistOfAuthors);
     console.log('sidebarAuthorLinkHTML', sidebarAuthorLinkHTML);
     
     sidebarAuthorList.innerHTML = sidebarAuthorLinkHTML;
