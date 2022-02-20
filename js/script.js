@@ -2,14 +2,14 @@
 {
   'use strict';
 
-    const templates = {
+  const templates = {
     articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
     tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
     authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
     authorLinkList: Handlebars.compile(document.querySelector('#template-author-list-link').innerHTML),
     articleTagLink: Handlebars.compile(document.querySelector('#template-article-tag-link').innerHTML),
 
-  }
+  };
 
   const titleClickHandler = function (event) {
     event.preventDefault();
@@ -112,7 +112,7 @@
 
   generateTitleLinks();
 
-  function calculateTagsParams(tags) {
+  const calculateTagsParams = function (tags) {
 
     const params = {
       max: 0,
@@ -125,9 +125,9 @@
       console.log(tag + ' is used ' + tags[tag] + ' times');
     }
     return params;
-  }
+  };
 
-  function calculateTagClass(count, params) {
+  const calculateTagClass = function (count, params) {
 
     const normalizedCount = count - params.min;
     const normalizedMax = params.max - params.min;
@@ -136,7 +136,7 @@
     const cloudClassPrefixHTML = optCloudClassPrefix + classNumber;
 
     return cloudClassPrefixHTML;
-  }
+  };
 
   const generateTags = function () {
 
@@ -216,6 +216,7 @@
     /* [NEW] create variable for all links HTML code */
     const allTagsData = { tags: [] };
     console.log('allTagsData', allTagsData);
+    console.log('allTags', allTags);
 
     for (let tag in allTags) {
       /* [NEW] generate code of a link and add it to allTagsHTML */
@@ -323,15 +324,14 @@
     for (const theAuthorArticle of theAuthorArticles) {
 
       theAuthorArticle.classList.add('active');
-      console.log('dodał active do wszystkich art tego autora: ', theAuthorArticle)
+      console.log('dodał active do wszystkich art tego autora: ', theAuthorArticle);
     }
 
     generateTitleLinks('[data-author="' + authorName + '"]');
   };
 
   const generateAuthors = function () {
-    const BiglistOfAuthors = {};
-    const BiglistOfAuthors2 = {authorLink:[]};
+    const bigListOfAuthors = {};
 
     const listOfArticles = document.querySelectorAll(optArticleSelector);
     console.log('powstała lista autorów i art. ?: ', listOfArticles);
@@ -345,46 +345,53 @@
 
       const authorByName = author.getAttribute(optDataAuthorSelector);
       console.log('pobrał nazwiska autorów?: ', authorByName);
-      
-      const linkHTMLData = { author: authorByName };
-      const linkHTML = templates.authorLink(linkHTMLData);
-      console.log('to są linki', linkHTML);
-      console.log('to jest tablica linkHTMLData', linkHTMLData);
-      
-      html = linkHTML;
 
-      authorWrapper.innerHTML = html;
+      const authorByNameArray = [];
+      authorByNameArray.push(authorByName);
+      console.log('authorByNameArray', authorByNameArray);
 
-      const indexOfArray = BiglistOfAuthors2.authorLink.indexOf({authorLinkName: authorByName})
-        console.log('indexOfArray', indexOfArray);
+      for (author in authorByNameArray) {
 
-      if(indexOfArray == -1){
-        BiglistOfAuthors2.authorLink.push({
-        authorLinkName: authorByName,
-        })
+        const linkHTMLData = { author: authorByName };
+        const linkHTML = templates.authorLink(linkHTMLData);
+        console.log('to są linki', linkHTML);
+        console.log('to jest tablica linkHTMLData', linkHTMLData);
+
+        if (!bigListOfAuthors[authorByName]) {
+          bigListOfAuthors[authorByName] = 1;
+        } else {
+          bigListOfAuthors[authorByName]++;
+          console.log('bigListOfAuthors[authorByName]', bigListOfAuthors[authorByName]);
+        }
+
+        html = linkHTML;
+
+        authorWrapper.innerHTML = html;
       }
-
-      if (!BiglistOfAuthors[authorByName]) {
-        BiglistOfAuthors[authorByName] = 1;
-      } else {
-        BiglistOfAuthors[authorByName]++;
-      }
-
-    
     }
-    console.log('obiekt nazwisk po pętli?',BiglistOfAuthors);
-    console.log('obiekt 2 po pętli?',BiglistOfAuthors2);
-  
-    const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
-    html = '';
 
-    const sidebarAuthorLinkHTML = templates.authorLinkList(BiglistOfAuthors2);
-    console.log('BiglistOfAuthors.authors:', BiglistOfAuthors);
-    console.log('sidebarAuthorLinkHTML', sidebarAuthorLinkHTML);
-    
-    sidebarAuthorList.innerHTML = sidebarAuthorLinkHTML;
-      
-  }
+    const sidebarAuthorList = document.querySelector(optAuthorsListSelector);
+    console.log('siedbarAuthotsList', sidebarAuthorList);
+
+    let html = '';
+
+    allAuthorsData = { author: [] };
+    console.log('allAuthorsData', allAuthorsData);
+
+    for (oneAuthor in bigListOfAuthors) {
+      allAuthorsData.author.push({
+        authorName: oneAuthor,
+        count: bigListOfAuthors.authorByName,
+      });
+    }
+    console.log('allAuthorsData:', allAuthorsData);
+  
+    const authorsListLinkHTML = templates.authorLinkList(allAuthorsData);
+    console.log('sidbar linki', authorsListLinkHTML);
+
+    sidebarAuthorList.innerHTML = html + authorsListLinkHTML;
+    console.log('sidebarAuthorLinkHTML', authorsListLinkHTML);
+  };
 
   generateAuthors();
 
@@ -398,5 +405,5 @@
       linkToAuthor.addEventListener('click', authorClickHandler);
     }
   };
-    addClickListenersToAuthors();
+  addClickListenersToAuthors();
 }
