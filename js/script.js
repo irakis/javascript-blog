@@ -375,10 +375,10 @@
 
     let html = '';
 
-    allAuthorsData = { author: [] };
+    const allAuthorsData = { author: [] };
     console.log('allAuthorsData', allAuthorsData);
 
-    for (oneAuthor in bigListOfAuthors) {
+    for (const oneAuthor in bigListOfAuthors) {
       allAuthorsData.author.push({
         authorName: oneAuthor,
         count: bigListOfAuthors.authorByName,
